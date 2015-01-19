@@ -1,0 +1,70 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.imagefilter.SettingsActivity" >
+
+    <TextView
+        android:id="@+id/text_filter_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/text_filter_type"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ToggleButton
+        android:id="@+id/button_median"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_filter_type"
+        android:layout_alignStart="@+id/text_filter_type"
+        android:layout_marginTop="30dp"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:checked="true"
+        android:disabledAlpha="0"
+        android:textOn="@string/button_median"
+        android:textOff="@string/button_median"
+        android:text="@string/button_median" />
+
+    <ToggleButton
+        android:id="@+id/button_mean"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button_median"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="40dp"
+        android:paddingStart="35dp"
+        android:paddingEnd="35dp"
+        android:disabledAlpha="0"
+        android:textOn="@string/button_mean"
+        android:textOff="@string/button_mean"
+        android:text="@string/button_mean" />
+
+    <SeekBar
+        android:id="@+id/seek_filter_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/text_filter_size"
+        android:layout_marginBottom="30dp"
+        android:max="11"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:id="@+id/text_filter_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp"
+        android:text="@string/text_slider"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>

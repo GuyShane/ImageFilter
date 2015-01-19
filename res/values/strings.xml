@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Image Filter</string>
+    <string name="action_settings">Settings</string>
+    
+    <string name="button_apply">Apply filter</string>
+    <string name="button_load_img">Load image</string>
+    <string name="text_img_description">Default image</string>
+    
+    <string name="button_median">Median</string>
+    <string name="button_mean">Mean</string>
+    <string name="text_slider">Filter size: 3</string>
+    <string name="text_filter_type">Filter type:</string>
+    <string name="title_activity_settings">Settings</string>
+    
+    <string name="action_main">Image view</string>
+
+</resources>
