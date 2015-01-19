@@ -18,7 +18,7 @@ public abstract class Filter {
 				width, height);
 
 		for (int i=0;i<width*height;i++) {
-			try {
+			/*try {
 				if (getRow(i,width)<=windowWidth || getRow(i,width)>=(height-windowWidth-1) ||
 						getCol(i,width)<=windowWidth || getCol(i,width)>=(width-windowWidth-1)) {
 					destPixels[i]=sourcePixels[i];
@@ -26,6 +26,10 @@ public abstract class Filter {
 				else {
 					destPixels[i]=filterCalculation(getWindow(sourcePixels, i, width, windowSize));
 				}
+			} catch (Exception e) {
+			}*/
+			try {
+				destPixels[i]=filterCalculation(getWindow(sourcePixels, i, width, windowSize));
 			} catch (Exception e) {
 			}
 		}
