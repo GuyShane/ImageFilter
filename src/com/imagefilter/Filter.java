@@ -6,8 +6,6 @@ public abstract class Filter {
 	
 	public Bitmap applyFilter(Bitmap source, int windowSize) {
 		
-		int windowWidth=windowSize/2;
-		
 		int width=source.getWidth();
 		int height=source.getHeight();
 		
@@ -18,16 +16,6 @@ public abstract class Filter {
 				width, height);
 
 		for (int i=0;i<width*height;i++) {
-			/*try {
-				if (getRow(i,width)<=windowWidth || getRow(i,width)>=(height-windowWidth-1) ||
-						getCol(i,width)<=windowWidth || getCol(i,width)>=(width-windowWidth-1)) {
-					destPixels[i]=sourcePixels[i];
-				}
-				else {
-					destPixels[i]=filterCalculation(getWindow(sourcePixels, i, width, windowSize));
-				}
-			} catch (Exception e) {
-			}*/
 			try {
 				destPixels[i]=filterCalculation(getWindow(sourcePixels, i, width, windowSize));
 			} catch (Exception e) {

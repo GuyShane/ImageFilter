@@ -8,11 +8,10 @@ public class MeanFilter extends Filter {
 	}
 	
 	private int avg(int []arr) {
-		long avg=0;
+		int avg=0;
 		for (int num:arr) {
-			avg+=num;
+			avg+=num/arr.length;
 		}
-		avg/=arr.length;
-		return (int) avg;
+		return avg;
 	}
 }
