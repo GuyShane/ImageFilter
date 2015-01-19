@@ -1,7 +1,6 @@
 package com.imagefilter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -17,7 +16,6 @@ import android.widget.ProgressBar;
 public class MainActivity extends Activity {
 	
 	private int windowSize;
-	private Context ctx;
 	private SharedPreferences prefs;
 	private String filterType;
 	private Filter filter;
@@ -30,8 +28,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		ctx=this;
+
 		apply=(Button) findViewById(R.id.button_apply);
 		image_progress=(ProgressBar) findViewById(R.id.progress_image);
 		picture=(ImageView) findViewById(R.id.image_view);
