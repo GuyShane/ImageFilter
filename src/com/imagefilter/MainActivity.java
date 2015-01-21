@@ -1,9 +1,14 @@
 package com.imagefilter;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +20,8 @@ import android.widget.ProgressBar;
 
 public class MainActivity extends Activity {
 	
+	private static final int PIC_LOADED=1;
+	
 	private int windowSize;
 	private SharedPreferences prefs;
 	private String filterType;
@@ -22,6 +29,7 @@ public class MainActivity extends Activity {
 	private ProgressBar image_progress;
 	private ImageView picture;
 	private Button apply;
+	private Button load;
 	private Bitmap filtered;
 	private boolean processing;
 
@@ -33,6 +41,7 @@ public class MainActivity extends Activity {
 		processing=false;
 
 		apply=(Button) findViewById(R.id.button_apply);
+		load=(Button) findViewById(R.id.button_load_img);
 		image_progress=(ProgressBar) findViewById(R.id.progress_image);
 		picture=(ImageView) findViewById(R.id.image_view);
 		
@@ -43,6 +52,15 @@ public class MainActivity extends Activity {
 				if (!processing) {
 					doFilter();
 				}
+			}
+		});
+		
+		load.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent pic=new Intent(Intent.ACTION_PICK);
+				pic.setType("image/*");
+				startActivityForResult(pic, PIC_LOADED);
 			}
 		});
 	}
@@ -62,6 +80,25 @@ public class MainActivity extends Activity {
 		}
 		else if (filterType.equals("mean")) {
 			filter=new MeanFilter();
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		switch(requestCode) {
+		case PIC_LOADED:
+			if (resultCode==RESULT_OK) {
+				Uri img=data.getData();
+				try {
+					InputStream imgStream=getContentResolver().openInputStream(img);
+					Bitmap newPic=BitmapFactory.decodeStream(imgStream);
+					picture.setImageBitmap(newPic);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	
