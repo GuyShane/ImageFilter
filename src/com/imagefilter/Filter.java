@@ -19,6 +19,7 @@ public abstract class Filter {
 			try {
 				destPixels[i]=filterCalculation(getWindow(sourcePixels, i, width, windowSize));
 			} catch (Exception e) {
+				destPixels[i]=sourcePixels[i];
 			}
 		}
 
@@ -42,10 +43,11 @@ public abstract class Filter {
 	private int []getWindow(int []source, int i, int imageWidth, int windowSize) {
 		int r=getRow(i,imageWidth);
 		int c=getCol(i,imageWidth);
+		int offset=windowSize/2;
 		int []window=new int[windowSize*windowSize];
 		for (int x=0;x<windowSize;x++){
 			for (int y=0;y<windowSize;y++){
-				window[getI(x,y,windowSize)]=source[getI(r+x,c+y,imageWidth)];
+				window[getI(x,y,windowSize)]=source[getI((r+x)-offset,(c+y)-offset,imageWidth)];
 			}
 		}
 		return window;

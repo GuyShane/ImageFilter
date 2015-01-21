@@ -23,11 +23,14 @@ public class MainActivity extends Activity {
 	private ImageView picture;
 	private Button apply;
 	private Bitmap filtered;
+	private boolean processing;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		processing=false;
 
 		apply=(Button) findViewById(R.id.button_apply);
 		image_progress=(ProgressBar) findViewById(R.id.progress_image);
@@ -37,7 +40,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				//need to be able to load new images
-				doFilter();
+				if (!processing) {
+					doFilter();
+				}
 			}
 		});
 	}
@@ -63,6 +68,7 @@ public class MainActivity extends Activity {
 	private class AsyncFilter extends AsyncTask<Void,Void,Void> {
 		@Override
 		protected void onPreExecute() {
+			processing=true;
 			image_progress.setVisibility(View.VISIBLE);
 		}
 
@@ -77,6 +83,7 @@ public class MainActivity extends Activity {
 		
 		@Override
 		protected void onPostExecute(Void result) {
+			processing=false;
 			image_progress.setVisibility(View.GONE);
 			picture.setImageBitmap(filtered);
 		}
