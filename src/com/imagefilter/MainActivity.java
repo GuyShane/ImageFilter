@@ -23,6 +23,8 @@ public class MainActivity extends Activity {
 	private static final int PIC_LOADED=1;
 	
 	private int windowSize;
+	private int max_height;
+	private int max_width;
 	private SharedPreferences prefs;
 	private String filterType;
 	private Filter filter;
@@ -30,7 +32,7 @@ public class MainActivity extends Activity {
 	private ImageView picture;
 	private Button apply;
 	private Button load;
-	private Bitmap filtered;
+	private Bitmap image;
 	private boolean processing;
 
 	@Override
@@ -45,10 +47,12 @@ public class MainActivity extends Activity {
 		image_progress=(ProgressBar) findViewById(R.id.progress_image);
 		picture=(ImageView) findViewById(R.id.image_view);
 		
+		max_height=picture.getHeight();
+		max_width=picture.getWidth();
+		
 		apply.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//need to be able to load new images
 				if (!processing) {
 					doFilter();
 				}
@@ -93,8 +97,8 @@ public class MainActivity extends Activity {
 				Uri img=data.getData();
 				try {
 					InputStream imgStream=getContentResolver().openInputStream(img);
-					Bitmap newPic=BitmapFactory.decodeStream(imgStream);
-					picture.setImageBitmap(newPic);
+					image=BitmapFactory.decodeStream(imgStream, null, null);
+					picture.setImageBitmap(image);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -112,9 +116,9 @@ public class MainActivity extends Activity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			windowSize=prefs.getInt("windowSize", 3);
-			picture.buildDrawingCache();
-			Bitmap image=picture.getDrawingCache();
-			filtered=filter.applyFilter(image, windowSize);
+			picture.buildDrawingCache(false);
+			image=picture.getDrawingCache();
+			image=filter.applyFilter(image, windowSize);
 			return null;
 		}
 		
@@ -122,7 +126,8 @@ public class MainActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			processing=false;
 			image_progress.setVisibility(View.GONE);
-			picture.setImageBitmap(filtered);
+			picture.setImageBitmap(image);
+			picture.destroyDrawingCache();
 		}
 		
 	}
