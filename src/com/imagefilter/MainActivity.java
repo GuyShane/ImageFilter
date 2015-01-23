@@ -1,6 +1,7 @@
 package com.imagefilter;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import android.app.Activity;
@@ -46,9 +47,6 @@ public class MainActivity extends Activity {
 		load=(Button) findViewById(R.id.button_load_img);
 		image_progress=(ProgressBar) findViewById(R.id.progress_image);
 		picture=(ImageView) findViewById(R.id.image_view);
-		
-		max_height=picture.getHeight();
-		max_width=picture.getWidth();
 		
 		apply.setOnClickListener(new View.OnClickListener() {
 			@Override
