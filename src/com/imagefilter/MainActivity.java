@@ -131,7 +131,6 @@ public class MainActivity extends Activity {
 				bitmap.compress(Bitmap.CompressFormat.PNG, 90, os);
 				os.flush();
 				os.close();
-				System.out.println("saved?");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -142,6 +141,7 @@ public class MainActivity extends Activity {
 			Toast.makeText(ctx, "The image could not be saved", Toast.LENGTH_LONG).show();
 		}
 	}
+
 	
 	private class AsyncFilter extends AsyncTask<Void,Void,Void> {
 		@Override
