@@ -1,13 +1,9 @@
 package com.imagefilter;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -15,14 +11,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	
@@ -38,7 +32,6 @@ public class MainActivity extends Activity {
 	private Button load;
 	private Bitmap image;
 	private boolean processing;
-	private Context ctx;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +39,6 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		processing=false;
-		ctx=this;
 
 		apply=(Button) findViewById(R.id.button_apply);
 		load=(Button) findViewById(R.id.button_load_img);
@@ -80,10 +72,6 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		image=loadImage();
-		if (image!=null) {
-			picture.setImageBitmap(image);
-		}
 		prefs=this.getSharedPreferences("prefs", MODE_PRIVATE);
 		filterType=prefs.getString("filterType", "median");
 		if (filterType.equals("median")) {
@@ -105,40 +93,11 @@ public class MainActivity extends Activity {
 				try {
 					InputStream imgStream=getContentResolver().openInputStream(img);
 					image=BitmapFactory.decodeStream(imgStream);
-					saveImage(image);
 					picture.setImageBitmap(image);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
 			}
-		}
-	}
-	
-	private Bitmap loadImage() {
-		String pic=ctx.getExternalFilesDir(Environment.DIRECTORY_PICTURES)+"/filtered/filter_image.png";
-		return BitmapFactory.decodeFile(pic);
-	}
-	
-	private void saveImage(Bitmap bitmap) {
-		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-			File dir=new File(ctx.getExternalFilesDir(Environment.DIRECTORY_PICTURES)+"/filtered");
-			dir.mkdirs();
-			String filename="filter_image.png";
-			File file=new File(dir,filename);
-			if (file.exists()){file.delete();}
-			try {
-				FileOutputStream os=new FileOutputStream(file);
-				bitmap.compress(Bitmap.CompressFormat.PNG, 90, os);
-				os.flush();
-				os.close();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		else {
-			Toast.makeText(ctx, "The image could not be saved", Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -156,7 +115,6 @@ public class MainActivity extends Activity {
 			picture.buildDrawingCache(false);
 			image=picture.getDrawingCache();
 			image=filter.applyFilter(image, windowSize);
-			saveImage(image);
 			return null;
 		}
 		
@@ -182,7 +140,6 @@ public class MainActivity extends Activity {
 		if (id == R.id.action_settings) {
 			Intent i=new Intent(MainActivity.this,SettingsActivity.class);
 			startActivity(i);
-			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
